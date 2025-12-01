@@ -1,5 +1,6 @@
-.cargo/*
-.idea
+.cargo/
+.history/
+.idea/
 target
 *.vim
-.vscode
+.vscode/

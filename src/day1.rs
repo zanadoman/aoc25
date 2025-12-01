@@ -8,12 +8,7 @@ fn main() {
     let mut password = 0;
 
     for line in &input {
-        let value = line
-            .chars()
-            .skip(1)
-            .collect::<String>()
-            .parse::<i16>()
-            .expect("value");
+        let value = line[1..].parse::<i16>().expect("value");
         if line.starts_with('L') {
             dial -= value;
         } else if line.starts_with('R') {
