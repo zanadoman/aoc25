@@ -8,7 +8,8 @@ fn main() {
     let mut password = 0;
 
     for line in &input {
-        let value = line[1..].parse::<i16>().expect("value");
+        let old = dial;
+        let value = line[1..].parse::<i128>().expect("value");
         if line.starts_with('L') {
             dial -= value;
         } else if line.starts_with('R') {
@@ -16,10 +17,7 @@ fn main() {
         } else {
             panic!("Invalid direction");
         }
-        dial %= 100;
-        if dial == 0 {
-            password += 1;
-        }
+        password += (dial / 100 - old / 100).abs();
     }
 
     println!("Password: {password}");
