@@ -16,7 +16,7 @@ fn main() {
                         (1..s.len()).filter(|v| s.len().is_multiple_of(*v)).any(
                             |d| {
                                 (1..s.len() / d)
-                                    .all(|i| s[d * i..d * (i + 1)] == s[0..d])
+                                    .all(|i| s[d * i..d * (i + 1)] == s[..d])
                             },
                         )
                     })
