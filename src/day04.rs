@@ -2,6 +2,23 @@
 #![deny(warnings)]
 #![warn(clippy::nursery, clippy::pedantic)]
 
+fn main() {
+    let mut grid: Vec<Vec<char>> = aoc25::read_input(env!("CARGO_BIN_NAME"))
+        .expect("input")
+        .iter()
+        .map(|l| l.chars().collect())
+        .collect();
+    let mut count = remove_rolls(&mut grid);
+    let mut removed = count;
+
+    while 0 < count {
+        count = remove_rolls(&mut grid);
+        removed += count;
+    }
+
+    println!("Removed rolls: {removed}");
+}
+
 fn remove_rolls(grid: &mut [Vec<char>]) -> i32 {
     let mut removed = 0;
 
@@ -40,21 +57,4 @@ fn remove_rolls(grid: &mut [Vec<char>]) -> i32 {
     }
 
     removed
-}
-
-fn main() {
-    let mut grid: Vec<Vec<char>> = aoc25::read_input(env!("CARGO_BIN_NAME"))
-        .expect("input")
-        .iter()
-        .map(|l| l.chars().collect())
-        .collect();
-    let mut count = remove_rolls(&mut grid);
-    let mut removed = count;
-
-    while 0 < count {
-        count = remove_rolls(&mut grid);
-        removed += count;
-    }
-
-    println!("Removed rolls: {removed}");
 }
