@@ -2,9 +2,8 @@
 #![deny(warnings)]
 #![warn(clippy::nursery, clippy::pedantic)]
 
-fn main() {
-    let grid = aoc25::read_input(env!("CARGO_BIN_NAME")).expect("input");
-    let mut count = 0;
+fn remove_rolls(grid: &mut [String]) -> i32 {
+    let mut removed = 0;
 
     for y in 0..grid.len() {
         for x in 0..grid[y].len() {
@@ -34,10 +33,24 @@ fn main() {
                 }
             }
             if adjacents < 4 {
-                count += 1;
+                grid[y].replace_range(x..=x, ".");
+                removed += 1;
             }
         }
     }
 
-    println!("Accessible rolls: {count}");
+    removed
+}
+
+fn main() {
+    let mut grid = aoc25::read_input(env!("CARGO_BIN_NAME")).expect("input");
+    let mut count = remove_rolls(&mut grid);
+    let mut removed = count;
+
+    while 0 < count {
+        count = remove_rolls(&mut grid);
+        removed += count;
+    }
+
+    println!("Removed rolls: {removed}");
 }
