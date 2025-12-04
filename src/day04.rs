@@ -2,12 +2,12 @@
 #![deny(warnings)]
 #![warn(clippy::nursery, clippy::pedantic)]
 
-fn remove_rolls(grid: &mut [String]) -> i32 {
+fn remove_rolls(grid: &mut [Vec<char>]) -> i32 {
     let mut removed = 0;
 
     for y in 0..grid.len() {
         for x in 0..grid[y].len() {
-            if grid[y].chars().nth(x).expect("cell") == '.' {
+            if grid[y][x] == '.' {
                 continue;
             }
             let mut adjacents = 0;
@@ -27,13 +27,13 @@ fn remove_rolls(grid: &mut [String]) -> i32 {
                     else {
                         continue;
                     };
-                    if row.chars().nth(col) == Some('@') {
+                    if row.get(col) == Some(&'@') {
                         adjacents += 1;
                     }
                 }
             }
             if adjacents < 4 {
-                grid[y].replace_range(x..=x, ".");
+                grid[y][x] = '.';
                 removed += 1;
             }
         }
@@ -43,7 +43,11 @@ fn remove_rolls(grid: &mut [String]) -> i32 {
 }
 
 fn main() {
-    let mut grid = aoc25::read_input(env!("CARGO_BIN_NAME")).expect("input");
+    let mut grid: Vec<Vec<char>> = aoc25::read_input(env!("CARGO_BIN_NAME"))
+        .expect("input")
+        .iter()
+        .map(|l| l.chars().collect())
+        .collect();
     let mut count = remove_rolls(&mut grid);
     let mut removed = count;
 
