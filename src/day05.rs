@@ -11,17 +11,27 @@ fn main() {
         && !line.is_empty()
     {
         let (low, high) = line.split_once('-').expect("low, high");
-        ranges.push((low.parse().expect("low"), high.parse().expect("high")));
+        let low = low.parse().expect("low");
+        let high = high.parse().expect("high");
+        if !ranges.iter().any(|(l, h)| *l <= low && high <= *h) {
+            ranges.retain_mut(|(l, h)| {
+                if low <= *l && *h <= high {
+                    false
+                } else {
+                    if low <= *l && *l <= high {
+                        *l = high + 1;
+                    } else if low <= *h && *h <= high {
+                        *h = low - 1;
+                    }
+                    true
+                }
+            });
+            ranges.push((low, high));
+        }
     }
 
     println!(
-        "Fresh ingredients: {}",
-        input
-            .iter()
-            .map(|l| l.parse().expect("id"))
-            .filter(|id| ranges
-                .iter()
-                .any(|(low, high)| (low..high).contains(&id)))
-            .count()
+        "Fresh ingredient IDs: {}",
+        ranges.iter().map(|(l, h)| h - l + 1).sum::<u128>()
     );
 }
