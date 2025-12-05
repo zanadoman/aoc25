@@ -7,6 +7,10 @@ edition = "2024"
 path = "src/lib.rs"
 
 [[bin]]
+name = "template"
+path = "src/template.rs"
+
+[[bin]]
 name = "day01"
 path = "src/day01.rs"
 
@@ -21,6 +25,10 @@ path = "src/day03.rs"
 [[bin]]
 name = "day04"
 path = "src/day04.rs"
+
+[[bin]]
+name = "day05"
+path = "src/day05.rs"
 
 [dependencies]
 
